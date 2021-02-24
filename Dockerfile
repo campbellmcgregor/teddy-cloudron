@@ -39,6 +39,7 @@ RUN rm -f /app/code/jetty/lib/mail/javax.mail.glassfish-*.jar
 ADD docs.xml /app/code/jetty/webapps/docs.xml
 ADD docs-web/target/docs-web-*.war /app/code/jetty/webapps/docs.war
 
+
 ENV JAVA_OPTIONS -Xmx1g
 COPY start.sh /app/code
 RUN chmod +x /app/code/start.sh && chown cloudron:cloudron /app/code/start.sh
