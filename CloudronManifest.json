@@ -8,7 +8,8 @@
     "localstorage": {},
     "sendmail": {},
     "postgresql": {},
-    "recvmail": {}
+    "recvmail": {},
+    "ldap": {}
   },
   "memoryLimit": 2048000000,
   "icon": "file://icon.png",
