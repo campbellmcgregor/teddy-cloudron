@@ -38,6 +38,7 @@ RUN rm -f /app/code/jetty/lib/mail/javax.mail.glassfish-*.jar
 
 ADD docs.xml /app/code/jetty/webapps/docs.xml
 ADD docs-web/target/docs-web-*.war /app/code/jetty/webapps/docs.war
+RUN mkdir -p /app/data/jetty && touch /app/data/jetty/jetty.state && ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
 
 
 ENV JAVA_OPTIONS -Xmx1g

@@ -18,7 +18,7 @@ export DOCS_SMTP_HOSTNAME=${CLOUDRON_MAIL_SMTP_SERVER}
 export DOCS_SMTP_PORT=${CLOUDRON_MAIL_SMTP_PORT}
 export DOCS_SMTP_USERNAME=${CLOUDRON_MAIL_SMTP_USERNAME}
 export DOCS_SMTP_PASSWORD=${CLOUDRON_MAIL_SMTP_PASSWORD}
-export SMTP_FROM=${CLOUDRON_MAIL_FROM}
+
 
 
 cd /app/code/
@@ -26,21 +26,18 @@ cd /app/code/
 
 echo "=> Make cloudron own /run"
 chown -R cloudron:cloudron /app/data
-mkdir -p /app/data/jetty 
-touch /app/data/jetty/jetty.state
-ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
+# mkdir -p /app/data/jetty 
+# touch /app/data/jetty/jetty.state
+# ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
 
 
-/app/code/jetty/bin/jetty.sh run
-sleep 15 
+exec /app/code/jetty/bin/jetty.sh run && \
 PGPASSWORD=${CLOUDRON_POSTGRESQL_PASSWORD} psql -h ${CLOUDRON_POSTGRESQL_HOST} -p ${CLOUDRON_POSTGRESQL_PORT} -U ${CLOUDRON_POSTGRESQL_USERNAME} \
  -d ${CLOUDRON_POSTGRESQL_DATABASE} -c "INSERT into t_config (cfg_id_c, cfg_value_c) \
-VALUES('LDAP_ENABLED', 'true'), ('LDAP_HOST', '$CLOUDRON_LDAP_SERVER'), \
+VALUES('LDAP_ENABLED', true), ('LDAP_HOST', '$CLOUDRON_LDAP_SERVER'), \
 ('LDAP_PORT', $CLOUDRON_LDAP_PORT), ('LDAP_ADMIN_DN', '$CLOUDRON_LDAP_BIND_DN'), \
 ('LDAP_ADMIN_PASSWORD', '$CLOUDRON_LDAP_BIND_PASSWORD'), \
 ('LDAP_BASE_DN', '$CLOUDRON_LDAP_USERS_BASE_DN'), \
-('LDAP_DEAFULT_EMAIL', 'mail@mail.com'), \
+('LDAP_DEFAULT_EMAIL', 'mail@mail.com'), \
 ('LDAP_FILTER', '(objectclass=user)(|(USERNAME=%uid)(USERNAME=%uid)))'), \
 ('LDAP_DEFAULT_STORAGE', 1024000000), ('SMTP_FROM', '$CLOUDRON_MAIL_FROM');"
-
-exec /app/code/jetty/bin/jetty.sh 
