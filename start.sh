@@ -28,11 +28,11 @@ echo "=> Make cloudron own /run"
 chown -R cloudron:cloudron /app/data
 mkdir -p /app/data/jetty 
 touch /app/data/jetty/jetty.state
-ln  /app/data/jetty/jetty.state /app/code/jetty/jetty.state
+ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
 
 
-exec /app/code/jetty/bin/jetty.sh run && \
-sleep 15; && \
+/app/code/jetty/bin/jetty.sh run
+sleep 15 
 PGPASSWORD=${CLOUDRON_POSTGRESQL_PASSWORD} psql -h ${CLOUDRON_POSTGRESQL_HOST} -p ${CLOUDRON_POSTGRESQL_PORT} -U ${CLOUDRON_POSTGRESQL_USERNAME} \
  -d ${CLOUDRON_POSTGRESQL_DATABASE} -c "INSERT into t_config (cfg_id_c, cfg_value_c) \
 VALUES('LDAP_ENABLED', 'true'), ('LDAP_HOST', '$CLOUDRON_LDAP_SERVER'), \
@@ -42,3 +42,5 @@ VALUES('LDAP_ENABLED', 'true'), ('LDAP_HOST', '$CLOUDRON_LDAP_SERVER'), \
 ('LDAP_DEAFULT_EMAIL', 'mail@mail.com'), \
 ('LDAP_FILTER', '(objectclass=user)(|(USERNAME=%uid)(USERNAME=%uid)))'), \
 ('LDAP_DEFAULT_STORAGE', 1024000000), ('SMTP_FROM', '$CLOUDRON_MAIL_FROM');"
+
+exec /app/code/jetty/bin/jetty.sh 
