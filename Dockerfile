@@ -42,7 +42,8 @@ RUN mkdir -p /app/data/jetty && touch /app/data/jetty/jetty.state && ln -s /app/
 
 
 ENV JAVA_OPTIONS -Xmx1g
-COPY start.sh /app/code
-RUN chmod +x /app/code/start.sh && chown cloudron:cloudron /app/code/start.sh
+COPY start.sh /app/code 
+COPY db_ldap.sh /app/code
+RUN chmod +x /app/code/start.sh && chown cloudron:cloudron /app/code/start.sh && chmod +x /app/code/db_ldap.sh && chown cloudron:cloudron /app/code/db_ldap.sh
 # Set the default command to run when starting the container
 CMD [ "/app/code/start.sh" ]
