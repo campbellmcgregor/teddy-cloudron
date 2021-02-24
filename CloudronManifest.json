@@ -1,0 +1,19 @@
+{
+  "id": "com.teddy.cloudron",
+  "title": "Teddy DMS",
+  "version": "0.0.1",
+  "healthCheckPath": "/",
+  "httpPort": 8080,
+  "addons": {
+    "localstorage": {},
+    "sendmail": {},
+    "postgresql": {},
+    "recvmail": {}
+  },
+  "memoryLimit": 2048000000,
+  "icon": "file://icon.png",
+  "postInstallMessage": "file://POSTINSTALL.md",
+  "description": "file://DESCRIPTION.md",
+  "changelog": "file://CHANGELOG",
+  "manifestVersion": 2
+}
