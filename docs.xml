@@ -4,6 +4,6 @@
 
   <Call class="java.lang.System" name="setProperty">
     <Arg>docs.home</Arg>
-    <Arg>/data</Arg>
+    <Arg>/app/data</Arg>
   </Call>
 </Configure>
