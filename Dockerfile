@@ -19,10 +19,14 @@ RUN wget -nv -O /tmp/jetty.tar.gz \
     && mv /app/code/jetty* /app/code/jetty \
     && useradd jetty -U -s /bin/false \
     && chown -R jetty:jetty /app/code/jetty
+
+RUN rm -fr /app/code/jetty/webapps
+RUN ln -s /app/data/jetty/webapps /app/code/jetty/webapps
 WORKDIR /app/code/jetty
 RUN chmod +x bin/jetty.sh
 
 # Init configuration
+
 COPY opt /app/code
 ENV JETTY_HOME /app/code/jetty
 ENV JAVA_OPTIONS -Xmx512m
@@ -36,8 +40,9 @@ RUN apt-get update && apt-get -y -q install ffmpeg mediainfo tesseract-ocr tesse
 # Remove the embedded javax.mail jar from Jetty
 RUN rm -f /app/code/jetty/lib/mail/javax.mail.glassfish-*.jar
 
-ADD docs.xml /app/code/jetty/webapps/docs.xml
-ADD docs-web/target/docs-web-*.war /app/code/jetty/webapps/docs.war
+
+COPY docs.xml /app/data/jetty/webapps/docs.xml
+COPY docs-web/target/docs-web-*.war /app/data/jetty/webapps/docs.war
 RUN mkdir -p /app/data/jetty && touch /app/data/jetty/jetty.state && ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
 
 

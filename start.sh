@@ -23,7 +23,6 @@ export DOCS_SMTP_PASSWORD=${CLOUDRON_MAIL_SMTP_PASSWORD}
 
 cd /app/code/
 
-
 echo "=> Make cloudron own /run"
 chown -R cloudron:cloudron /app/data
 # mkdir -p /app/data/jetty 
