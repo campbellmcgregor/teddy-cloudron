@@ -18,7 +18,7 @@ RUN wget -nv -O /tmp/jetty.tar.gz \
     && tar xzf /tmp/jetty.tar.gz -C /app/code \
     && mv /app/code/jetty* /app/code/jetty \
     && useradd jetty -U -s /bin/false \
-    && chown -R jetty:jetty /app/code/jetty
+    && chown -R cloudron:cloudron /app/code/jetty
 
 RUN rm -fr /app/code/jetty/webapps
 RUN ln -s /app/data/jetty/webapps /app/code/jetty/webapps
@@ -38,7 +38,7 @@ RUN apt-get update && apt-get -y -q install ffmpeg mediainfo tesseract-ocr tesse
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Remove the embedded javax.mail jar from Jetty
-RUN rm -f /app/code/jetty/lib/mail/javax.mail.glassfish-*.jar
+#RUN rm -f /app/code/jetty/lib/mail/javax.mail.glassfish-*.jar
 
 
 COPY docs.xml /app/data/jetty/webapps/docs.xml
@@ -49,6 +49,7 @@ RUN mkdir -p /app/data/jetty && touch /app/data/jetty/jetty.state && ln -s /app/
 ENV JAVA_OPTIONS -Xmx1g
 COPY start.sh /app/code 
 COPY db_ldap.sh /app/code
-RUN chmod +x /app/code/start.sh && chown cloudron:cloudron /app/code/start.sh && chmod +x /app/code/db_ldap.sh && chown cloudron:cloudron /app/code/db_ldap.sh
+RUN chmod +x /app/code/start.sh && chown cloudron:cloudron /app/code/start.sh && chmod +x /app/code/db_ldap.sh && chown cloudron:cloudron /app/code/db_ldap.sh && \
+chown -R cloudron:cloudron /app/code/jetty
 # Set the default command to run when starting the container
 CMD [ "/app/code/start.sh" ]

@@ -30,5 +30,5 @@ chown -R cloudron:cloudron /app/data
 # ln -s /app/data/jetty/jetty.state /app/code/jetty/jetty.state
 
 
-
-exec /app/code/jetty/bin/jetty.sh run && /app/code/db_ldap.sh
+exec /usr/local/bin/gosu cloudron:cloudron /app/code/jetty/bin/jetty.sh run
+#exec /app/code/jetty/bin/jetty.sh run && /app/code/db_ldap.sh
